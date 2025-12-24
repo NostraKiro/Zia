@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merry Christmas, Zia</title>
+    <style>
+        :root { --gold: #f8b229; --holiday-red: #b3000c; --deep-blue: #0d1b2a; }
+        body { margin: 0; background: var(--deep-blue); color: white; font-family: 'Georgia', serif; text-align: center; overflow: hidden; }
+        .snow-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+        .page { display: none; min-height: 100vh; flex-direction: column; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
+        .active { display: flex; animation: fadeIn 1.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        #gift-page { cursor: pointer; }
+        .box { width: 120px; height: 120px; background: var(--holiday-red); position: relative; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 0 30px rgba(0,0,0,0.5); transition: transform 0.3s; }
+        .box:hover { transform: scale(1.1); }
+        .box::before { content: ''; position: absolute; width: 25px; height: 100%; background: var(--gold); left: 47.5px; }
+        .box::after { content: ''; position: absolute; width: 100%; height: 25px; background: var(--gold); top: 47.5px; left: 0; }
+        h1 { color: var(--gold); font-size: 2.2rem; margin: 10px 0; text-shadow: 2px 2px #000; }
+        .message-box { max-width: 500px; font-size: 1.2rem; line-height: 1.8; font-style: italic; background: rgba(255, 255, 255, 0.08); padding: 25px; border-radius: 20px; border: 1px solid rgba(248, 178, 41, 0.3); }
+        .photo-strip { display: flex; gap: 20px; margin: 20px 0; flex-wrap: wrap; justify-content: center; }
+        .polaroid { background: white; padding: 10px 10px 30px 10px; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+        .polaroid img { width: 180px; height: 240px; object-fit: cover; }
+        .anniversary-text { font-size: 2.5rem; color: var(--gold); font-weight: bold; }
+        .btn { background: var(--gold); color: #0d1b2a; padding: 12px 25px; border: none; border-radius: 25px; font-weight: bold; cursor: pointer; margin-top: 20px; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <audio id="bgMusic" loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="snow-container" id="snow"></div>
+
+    <div id="gift-page" class="page active" onclick="startSurprise()">
+        <div class="box"></div>
+        <h2 style="color: var(--gold);">A Christmas gift for Zia... <br> (Tap the box to open)</h2>
+    </div>
+
+    <div id="greeting-page" class="page">
+        <h1>MERRY CHRISTMAS, MY HEART</h1>
+        <div class="photo-strip">
+            <div class="polaroid" style="transform: rotate(-3deg);"><img src="https://i.postimg.cc/DJ6GfsFg/6d1f6b06-4f7a-4714-a503-7ef9bbf67d4.jpg"></div>
+            <div class="polaroid" style="transform: rotate(3deg);"><img src="https://i.postimg.cc/c4T43M09/96d00e9d-16a7-456c-8472-a4005697d84d.jpg"></div>
+        </div>
+        <div class="message-box">
+            "I don’t love you because you’re perfect. I love you because you are you, my Zia. <br><br>
+            You make the hard days worth fighting for. I love you with all my soul."
+        </div>
+        <button class="btn" onclick="showPage('anniversary-page')">One more thing...</button>
+    </div>
+
+    <div id="anniversary-page" class="page">
+        <div class="anniversary-text">November 27, 2024</div>
+        <div style="font-size: 1.8rem; margin-top: 10px;">and Forever</div>
+        <div style="margin-top: 30px; font-size: 5rem;">❤️</div>
+        <button class="btn" onclick="showPage('greeting-page')">Back</button>
+    </div>
+
+    <script>
+        function startSurprise() {
+            const music = document.getElementById('bgMusic');
+            music.play().catch(e => console.log("Audio play blocked by browser"));
+            showPage('greeting-page');
+        }
+        function showPage(id) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        }
+        const snow = document.getElementById('snow');
+        for (let i = 0; i < 50; i++) {
+            const s = document.createElement('div');
+            s.innerHTML = '❄'; s.style.position = 'absolute';
+            s.style.left = Math.random() * 100 + 'vw'; s.style.top = '-20px';
+            s.style.color = 'white';
+            s.style.animation = `fall ${Math.random() * 5 + 3}s linear infinite`;
+            s.style.opacity = Math.random(); snow.appendChild(s);
+        }
+        const style = document.createElement('style');
+        style.innerHTML = `@keyframes fall { to { transform: translateY(100vh); } }`;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
