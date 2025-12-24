@@ -8,19 +8,23 @@
         :root { --gold: #f8b229; --holiday-red: #b3000c; --deep-blue: #0d1b2a; }
         body { margin: 0; background: var(--deep-blue); color: white; font-family: 'Georgia', serif; text-align: center; overflow: hidden; }
         .snow-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
-        .page { display: none; min-height: 100vh; flex-direction: column; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
+        .page { display: none; min-height: 100vh; flex-direction: column; justify-content: center; align-items: center; padding: 15px; box-sizing: border-box; }
         .active { display: flex; animation: fadeIn 1.5s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
         #gift-page { cursor: pointer; }
-        .box { width: 120px; height: 120px; background: var(--holiday-red); position: relative; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 0 30px rgba(0,0,0,0.5); }
-        .box::before { content: ''; position: absolute; width: 25px; height: 100%; background: var(--gold); left: 47.5px; }
-        .box::after { content: ''; position: absolute; width: 100%; height: 25px; background: var(--gold); top: 47.5px; left: 0; }
-        h1 { color: var(--gold); font-size: 2.2rem; margin: 10px 0; }
-        .message-box { max-width: 500px; font-size: 1.2rem; line-height: 1.8; font-style: italic; background: rgba(255, 255, 255, 0.05); padding: 25px; border-radius: 20px; border: 1px solid rgba(248, 178, 41, 0.3); }
-        .polaroid { background: white; padding: 10px 10px 30px 10px; box-shadow: 0 10px 20px rgba(0,0,0,0.5); margin-bottom: 20px; transform: rotate(-2deg); }
-        .polaroid img { width: 220px; height: auto; border: 1px solid #eee; }
-        .anniversary-text { font-size: 2.5rem; color: var(--gold); font-weight: bold; }
-        .btn { background: var(--gold); color: #0d1b2a; padding: 12px 25px; border: none; border-radius: 25px; font-weight: bold; cursor: pointer; margin-top: 20px; }
+        .box { width: 100px; height: 100px; background: var(--holiday-red); position: relative; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 0 30px rgba(0,0,0,0.5); }
+        .box::before { content: ''; position: absolute; width: 20px; height: 100%; background: var(--gold); left: 40px; }
+        .box::after { content: ''; position: absolute; width: 100%; height: 20px; background: var(--gold); top: 40px; left: 0; }
+        
+        h1 { color: var(--gold); font-size: 1.8rem; margin: 5px 0; text-shadow: 1px 1px #000; }
+        .message-box { max-width: 450px; font-size: 1.1rem; line-height: 1.6; font-style: italic; background: rgba(255, 255, 255, 0.08); padding: 20px; border-radius: 20px; border: 1px solid rgba(248, 178, 41, 0.3); margin-top: 10px; }
+        
+        .polaroid { background: white; padding: 8px 8px 25px 8px; box-shadow: 0 10px 20px rgba(0,0,0,0.5); margin: 10px 0; transform: rotate(-2deg); }
+        .polaroid img { width: 180px; height: auto; border: 1px solid #eee; }
+        
+        .anniversary-text { font-size: 2.2rem; color: var(--gold); font-weight: bold; }
+        .btn { background: var(--gold); color: #0d1b2a; padding: 10px 20px; border: none; border-radius: 25px; font-weight: bold; cursor: pointer; margin-top: 15px; z-index: 10; }
     </style>
 </head>
 <body>
@@ -36,7 +40,7 @@
     </div>
 
     <div id="greeting-page" class="page">
-        <h1>MERRY CHRISTMAS, MY HEART</h1>
+        <h1>MERRY CHRISTMAS</h1>
         <div class="polaroid">
             <img src="https://i.postimg.cc/DJ6GfsFg/6d1f6b06-4f7a-4714-a503-7ef9bbf67d4.jpg" alt="Our Hands">
         </div>
@@ -44,30 +48,40 @@
             "I don’t love you because you’re perfect. I love you because you are you, my Zia. <br><br>
             You make the hard days worth fighting for. I love you with all my soul."
         </div>
-        <button class="btn" onclick="showPage('anniversary-page')">One more thing...</button>
+        <button class="btn" onclick="showPage('anniversary-page')">SEE THE SURPRISE</button>
     </div>
 
     <div id="anniversary-page" class="page">
         <div class="anniversary-text">November 27, 2024</div>
-        <div style="font-size: 1.8rem; margin-top: 10px;">and Forever</div>
-        <div style="margin-top: 30px; font-size: 5rem;">❤️</div>
-        <button class="btn" onclick="showPage('greeting-page')">Back</button>
+        <div style="font-size: 1.5rem; margin-top: 10px;">and Forever</div>
+        <div style="margin-top: 20px; font-size: 5rem;">❤️</div>
+        <button class="btn" onclick="showPage('greeting-page')">Read Again</button>
     </div>
 
     <script>
         function startSurprise() {
             document.getElementById('bgMusic').play();
             showPage('greeting-page');
+            
+            // Auto-advance to anniversary page after 12 seconds so she doesn't miss it!
+            setTimeout(() => {
+                if(document.getElementById('greeting-page').classList.contains('active')) {
+                    showPage('anniversary-page');
+                }
+            }, 12000);
         }
+        
         function showPage(id) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(id).classList.add('active');
         }
+
         const snow = document.getElementById('snow');
-        for (let i = 0; i < 50; i++) {
+        for (let i = 0; i < 40; i++) {
             const s = document.createElement('div');
             s.innerHTML = '❄'; s.style.position = 'absolute';
             s.style.left = Math.random() * 100 + 'vw'; s.style.top = '-20px';
+            s.style.color = 'white';
             s.style.animation = `fall ${Math.random() * 5 + 3}s linear infinite`;
             s.style.opacity = Math.random(); snow.appendChild(s);
         }
